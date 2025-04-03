@@ -20,6 +20,7 @@ import (
 	"strings"
 	"time"
 
+	envoy_filter_http_go_v3alpha "github.com/envoyproxy/go-control-plane/contrib/envoy/extensions/filters/http/golang/v3alpha"
 	envoy_config_accesslog_v3 "github.com/envoyproxy/go-control-plane/envoy/config/accesslog/v3"
 	envoy_config_core_v3 "github.com/envoyproxy/go-control-plane/envoy/config/core/v3"
 	envoy_config_listener_v3 "github.com/envoyproxy/go-control-plane/envoy/config/listener/v3"
@@ -393,6 +394,18 @@ func (b *httpConnectionManagerBuilder) DefaultFilters() *httpConnectionManagerBu
 			Name: "router",
 			ConfigType: &envoy_filter_network_http_connection_manager_v3.HttpFilter_TypedConfig{
 				TypedConfig: protobuf.MustMarshalAny(&envoy_filter_http_router_v3.Router{}),
+			},
+		},
+		&envoy_filter_network_http_connection_manager_v3.HttpFilter{
+			Name: "wfaas.filter",
+			ConfigType: &envoy_filter_network_http_connection_manager_v3.HttpFilter_TypedConfig{
+				TypedConfig: protobuf.MustMarshalAny(&envoy_filter_http_go_v3alpha.Config{
+					LibraryId:    "wfaas-auth",
+					LibraryPath:  "/lib/libgolang.so",
+					PluginName:   "wfaas-auth",
+					PluginConfig: nil,
+					MergePolicy:  0,
+				}),
 			},
 		},
 	)

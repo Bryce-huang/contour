@@ -1,7 +1,7 @@
 ORG = projectcontour
-PROJECT = contour
+PROJECT = brycehuang
 MODULE = github.com/$(ORG)/$(PROJECT)
-REGISTRY ?= ghcr.io/projectcontour
+REGISTRY ?= docker.io
 IMAGE := $(REGISTRY)/$(PROJECT)
 SRCDIRS := ./cmd ./internal ./apis
 LOCAL_BOOTSTRAP_CONFIG = localenvoyconfig.yaml
@@ -53,7 +53,7 @@ BUILD_CGO_ENABLED ?= 0
 BUILD_GOPRIVATE ?= ""
 
 # Go module mirror to use.
-BUILD_GOPROXY ?= https://proxy.golang.org
+BUILD_GOPROXY ?= https://proxy.golang.cn
 
 # Checksum db to use.
 BUILD_GOSUMDB ?= sum.golang.org
